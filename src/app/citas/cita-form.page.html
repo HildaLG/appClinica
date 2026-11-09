@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/citas"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ esEdicion() ? 'Editar cita' : 'Nueva cita' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="app-container">
+    @if (cargando()) {
+      <div class="app-state">
+        <ion-spinner></ion-spinner>
+      </div>
+    } @else {
+      <form [formGroup]="form" (ngSubmit)="guardar()" novalidate>
+        <ion-item class="app-field" lines="none">
+          <ion-select
+            label="Paciente"
+            labelPlacement="stacked"
+            fill="outline"
+            placeholder="Elige un paciente"
+            formControlName="patient_id"
+          >
+            @for (paciente of pacientesOpciones(); track paciente.id) {
+              <ion-select-option [value]="paciente.id">{{ paciente.name }}</ion-select-option>
+            }
+          </ion-select>
+        </ion-item>
+        <app-field-error [control]="form.controls.patient_id" />
+
+        <ion-item class="app-field" lines="none">
+          <ion-input
+            label="Fecha y hora"
+            labelPlacement="stacked"
+            fill="outline"
+            type="datetime-local"
+            formControlName="appointment_date"
+          ></ion-input>
+        </ion-item>
+        <app-field-error [control]="form.controls.appointment_date" />
+
+        <ion-item class="app-field" lines="none">
+          <ion-input label="Motivo" labelPlacement="stacked" fill="outline" formControlName="reason"></ion-input>
+        </ion-item>
+        <app-field-error [control]="form.controls.reason" />
+
+        <ion-item class="app-field" lines="none">
+          <ion-select label="Estado" labelPlacement="stacked" fill="outline" formControlName="status">
+            <ion-select-option value="pending">Pendiente</ion-select-option>
+            <ion-select-option value="completed">Completada</ion-select-option>
+            <ion-select-option value="cancelled">Cancelada</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <app-field-error [control]="form.controls.status" />
+
+        <ion-item class="app-field" lines="none">
+          <ion-textarea
+            label="Notas (opcional)"
+            labelPlacement="stacked"
+            fill="outline"
+            formControlName="notes"
+            [autoGrow]="true"
+            rows="3"
+          ></ion-textarea>
+        </ion-item>
+        <app-field-error [control]="form.controls.notes" />
+
+        @if (errorGeneral(); as mensaje) {
+          <p class="app-form-error">{{ mensaje }}</p>
+        }
+
+        <ion-button type="submit" expand="block" class="ion-margin-top" [disabled]="guardando()">
+          {{ guardando() ? 'Guardando...' : 'Guardar' }}
+        </ion-button>
+      </form>
+    }
+  </div>
+</ion-content>

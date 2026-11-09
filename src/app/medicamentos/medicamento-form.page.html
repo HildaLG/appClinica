@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/medicamentos"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ esEdicion() ? 'Editar medicamento' : 'Nuevo medicamento' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="app-container">
+    @if (cargando()) {
+      <div class="app-state">
+        <ion-spinner></ion-spinner>
+      </div>
+    } @else {
+      <form [formGroup]="form" (ngSubmit)="guardar()" novalidate>
+        <ion-item class="app-field" lines="none">
+          <ion-input label="Nombre" labelPlacement="stacked" fill="outline" formControlName="name"></ion-input>
+        </ion-item>
+        <app-field-error [control]="form.controls.name" />
+
+        <ion-item class="app-field" lines="none">
+          <ion-input label="Presentación" labelPlacement="stacked" fill="outline" placeholder="Tableta 500mg" formControlName="presentation"></ion-input>
+        </ion-item>
+        <app-field-error [control]="form.controls.presentation" />
+
+        <ion-item class="app-field" lines="none">
+          <ion-input label="Precio" labelPlacement="stacked" fill="outline" type="number" inputmode="decimal" step="0.01" formControlName="price"></ion-input>
+        </ion-item>
+        <app-field-error [control]="form.controls.price" />
+
+        <ion-item class="app-field" lines="none">
+          <ion-textarea
+            label="Descripción (opcional)"
+            labelPlacement="stacked"
+            fill="outline"
+            formControlName="description"
+            [autoGrow]="true"
+            rows="3"
+          ></ion-textarea>
+        </ion-item>
+        <app-field-error [control]="form.controls.description" />
+
+        @if (errorGeneral(); as mensaje) {
+          <p class="app-form-error">{{ mensaje }}</p>
+        }
+
+        <ion-button type="submit" expand="block" class="ion-margin-top" [disabled]="guardando()">
+          {{ guardando() ? 'Guardando...' : 'Guardar' }}
+        </ion-button>
+      </form>
+    }
+  </div>
+</ion-content>

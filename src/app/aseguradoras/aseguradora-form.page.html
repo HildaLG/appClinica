@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/aseguradoras"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ esEdicion() ? 'Editar aseguradora' : 'Nueva aseguradora' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="app-container">
+    @if (cargando()) {
+      <div class="app-state">
+        <ion-spinner></ion-spinner>
+      </div>
+    } @else {
+      <form [formGroup]="form" (ngSubmit)="guardar()" novalidate>
+        <ion-item class="app-field" lines="none">
+          <ion-input label="Nombre" labelPlacement="stacked" fill="outline" formControlName="name"></ion-input>
+        </ion-item>
+        <app-field-error [control]="form.controls.name" />
+
+        <ion-item class="app-field" lines="none">
+          <ion-input label="Código" labelPlacement="stacked" fill="outline" formControlName="code"></ion-input>
+        </ion-item>
+        <app-field-error [control]="form.controls.code" />
+
+        <ion-item class="app-field" lines="none">
+          <ion-input label="Teléfono" labelPlacement="stacked" fill="outline" type="tel" formControlName="phone"></ion-input>
+        </ion-item>
+        <app-field-error [control]="form.controls.phone" />
+
+        <ion-item class="app-field" lines="none">
+          <ion-input
+            label="Cobertura (%)"
+            labelPlacement="stacked"
+            fill="outline"
+            type="number"
+            formControlName="coverage_percentage"
+          ></ion-input>
+        </ion-item>
+        <app-field-error [control]="form.controls.coverage_percentage" />
+
+        @if (errorGeneral(); as mensaje) {
+          <p class="app-form-error">{{ mensaje }}</p>
+        }
+
+        <ion-button type="submit" expand="block" class="ion-margin-top" [disabled]="guardando()">
+          {{ guardando() ? 'Guardando...' : 'Guardar' }}
+        </ion-button>
+      </form>
+    }
+  </div>
+</ion-content>

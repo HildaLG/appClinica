@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Clínica Rosa</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="app-container">
+    <div class="app-state">
+      <h2>{{ saludo() }}</h2>
+      <p>Resumen de la clínica</p>
+    </div>
+
+    @if (error(); as mensaje) {
+      <div class="app-state">
+        <p>{{ mensaje }}</p>
+        <ion-button (click)="cargar()">Reintentar</ion-button>
+      </div>
+    }
+
+    <div class="app-stats">
+      <div class="app-stat" routerLink="/doctores">
+        <strong>{{ totalDoctores() ?? '–' }}</strong>
+        <span>Doctores</span>
+      </div>
+      <div class="app-stat" routerLink="/pacientes">
+        <strong>{{ totalPacientes() ?? '–' }}</strong>
+        <span>Pacientes</span>
+      </div>
+      <div class="app-stat" routerLink="/citas">
+        <strong>{{ citasPendientes() ?? '–' }}</strong>
+        <span>Citas pendientes</span>
+      </div>
+    </div>
+
+    <ion-list class="app-list">
+      @for (seccion of secciones; track seccion.url) {
+        <ion-item class="app-card" lines="none" button detail [routerLink]="seccion.url">
+          <span slot="start" class="app-avatar">
+            <ion-icon [name]="seccion.icono" aria-hidden="true"></ion-icon>
+          </span>
+          <ion-label>
+            <h2>{{ seccion.titulo }}</h2>
+            <p>{{ seccion.descripcion }}</p>
+          </ion-label>
+        </ion-item>
+      }
+    </ion-list>
+  </div>
+</ion-content>

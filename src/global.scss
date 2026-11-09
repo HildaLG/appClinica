@@ -1,0 +1,371 @@
+/*
+ * Estilos globales de Clínica Rosa
+ * Los colores y medidas vienen de theme/variables.scss.
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+
+/* Optional CSS utils */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+/* Modo oscuro: sigue el tema del sistema operativo. */
+@import '@ionic/angular/css/palettes/dark.system.css';
+
+/* ------------------------------------------------------------------------
+ * Clases propias. Las pantallas solo usan estas:
+ *  .app-container    contenedor centrado del contenido
+ *  .app-card         tarjeta de un listado (ion-item)
+ *  .app-avatar       círculo con la inicial del nombre
+ *  .app-chip         etiqueta pequeña
+ *  .app-estado       etiqueta de estado de una cita (pendiente, completada, cancelada)
+ *  .app-field        campo de formulario
+ *  .app-field-error  error bajo un campo
+ *  .app-form-error   error general de un formulario
+ *  .app-state        bloque centrado para carga, vacío y error
+ *  .app-stats        fila de contadores del inicio
+ *  .app-stat         un contador
+ * ------------------------------------------------------------------------ */
+
+body {
+  font-size: var(--app-font-size);
+}
+
+/* Encabezado */
+ion-header ion-toolbar {
+  --background: var(--app-accent);
+  --color: var(--app-on-accent);
+  --border-width: 0;
+}
+
+ion-header ion-back-button,
+ion-header ion-button,
+ion-header ion-menu-button {
+  --color: var(--app-on-accent);
+}
+
+ion-title {
+  font-size: var(--app-font-size-title);
+  font-weight: 600;
+}
+
+/* Pie (paginación) */
+ion-footer {
+  --ion-toolbar-color: var(--app-accent-text);
+}
+
+ion-footer ion-toolbar {
+  --background: var(--app-surface);
+  --color: var(--app-text);
+  --border-color: var(--app-border);
+  --border-width: 1px 0 0 0;
+}
+
+ion-footer ion-title {
+  font-size: var(--app-font-size-small);
+  font-weight: 500;
+  color: var(--app-text);
+}
+
+ion-footer ion-button.button-disabled {
+  --ion-toolbar-color: var(--app-text-disabled);
+  --color: var(--app-text-disabled);
+  opacity: 1;
+  font-weight: 500;
+}
+
+ion-header,
+ion-footer,
+ion-header::after,
+ion-footer::before {
+  box-shadow: none;
+  background-image: none;
+}
+
+/* Botones: forma de píldora */
+ion-button {
+  --border-radius: var(--app-radius-pill);
+  --box-shadow: none;
+  text-transform: none;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+ion-footer ion-button,
+ion-button[fill='clear'] {
+  --color: var(--app-accent-text);
+}
+
+ion-button[fill='clear'][color='danger'] {
+  --color: var(--app-danger);
+}
+
+ion-button[fill='clear'][color='success'] {
+  --color: var(--app-success);
+}
+
+ion-header ion-button[fill='clear'] {
+  --color: var(--app-on-accent);
+}
+
+/* Botones sólidos */
+ion-content ion-button:not([fill]),
+ion-content ion-button[fill='solid'] {
+  --background: var(--app-accent);
+  --background-hover: var(--app-accent-strong);
+  --background-focused: var(--app-accent-strong);
+  --background-activated: var(--app-accent-strong);
+  --color: var(--app-on-accent);
+}
+
+/* Botón flotante "+" */
+ion-fab-button {
+  --background: var(--app-accent);
+  --background-activated: var(--app-accent-strong);
+  --color: var(--app-on-accent);
+  --box-shadow: var(--app-fab-shadow);
+}
+
+/* Contenido: columna centrada con ancho máximo */
+.app-container {
+  max-width: var(--app-content-max-width);
+  margin: 0 auto;
+  padding: var(--app-space-3);
+}
+
+/* Tarjetas de listado */
+ion-list.app-list {
+  background: transparent;
+  padding: 0;
+}
+
+ion-item.app-card {
+  --background: var(--app-surface);
+  --border-radius: var(--app-radius);
+  --padding-start: var(--app-space-3);
+  --inner-padding-end: var(--app-space-2);
+  --inner-border-width: 0;
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow);
+  margin-bottom: var(--app-space-3);
+}
+
+ion-item.app-card h2 {
+  font-size: var(--app-font-size);
+  font-weight: 600;
+  color: var(--app-text);
+}
+
+ion-item.app-card p {
+  color: var(--app-text-muted);
+  font-size: var(--app-font-size-small);
+}
+
+/* Avatar: círculo con la inicial del nombre */
+.app-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--app-radius-pill);
+  background: var(--app-accent-soft);
+  color: var(--app-accent-text);
+  font-weight: 700;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+/* Etiqueta pequeña */
+.app-chip {
+  display: inline-block;
+  margin-top: var(--app-space-2);
+  margin-right: var(--app-space-1);
+  padding: 2px var(--app-space-2);
+  border-radius: var(--app-radius-pill);
+  background: var(--app-accent-soft);
+  color: var(--app-accent-text);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Etiquetas de estado de una cita */
+.app-estado {
+  display: inline-block;
+  margin-top: var(--app-space-2);
+  padding: 2px var(--app-space-2);
+  border-radius: var(--app-radius-pill);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.app-estado.pending {
+  background: var(--app-pending-bg);
+  color: var(--app-pending-text);
+}
+
+.app-estado.completed {
+  background: var(--app-done-bg);
+  color: var(--app-done-text);
+}
+
+.app-estado.cancelled {
+  background: var(--app-cancel-bg);
+  color: var(--app-cancel-text);
+}
+
+/* Campos de formulario */
+ion-item.app-field {
+  --background: transparent;
+  --padding-start: 0;
+  --inner-padding-end: 0;
+  --inner-border-width: 0;
+  --overflow: visible;
+  overflow: visible;
+  margin-top: var(--app-space-3);
+}
+
+ion-item.app-field::part(native) {
+  overflow: visible;
+}
+
+ion-input,
+ion-textarea,
+ion-select {
+  --background: var(--app-surface);
+  --border-color: var(--app-border);
+  --border-radius: var(--app-radius-field);
+  --highlight-color-focused: var(--app-accent);
+  --color: var(--app-text);
+}
+
+/* Mensajes de error */
+.app-field-error {
+  display: block;
+  margin-top: var(--app-space-1);
+  font-size: var(--app-font-size-small);
+  color: var(--app-danger);
+}
+
+.app-form-error {
+  margin: var(--app-space-3) 0 0;
+  font-size: var(--app-font-size-small);
+  color: var(--app-danger);
+}
+
+/* Estados: cargando, vacío, error y no encontrado */
+.app-state {
+  text-align: center;
+  padding: var(--app-space-4) var(--app-space-3);
+  color: var(--app-text-muted);
+}
+
+.app-state h2 {
+  margin: 0 0 var(--app-space-2);
+  font-size: var(--app-font-size-title);
+  font-weight: 600;
+  color: var(--app-text);
+}
+
+/* Contadores del inicio */
+.app-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--app-space-3);
+  margin-bottom: var(--app-space-4);
+}
+
+.app-stat {
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow);
+  padding: var(--app-space-3);
+  text-align: center;
+  cursor: pointer;
+}
+
+.app-stat strong {
+  display: block;
+  font-size: 1.8rem;
+  color: var(--app-accent-text);
+}
+
+.app-stat span {
+  font-size: var(--app-font-size-small);
+  color: var(--app-text-muted);
+}
+
+/* Buscador */
+ion-searchbar.app-search {
+  --background: var(--app-surface);
+  --border-radius: var(--app-radius-pill);
+  --box-shadow: none;
+  --color: var(--app-text);
+  --icon-color: var(--app-accent-text);
+  padding: 0 0 var(--app-space-2);
+}
+
+/* Pestañas de citas */
+ion-segment.app-segment {
+  --background: var(--app-accent-soft);
+  border-radius: var(--app-radius-pill);
+  margin-bottom: var(--app-space-3);
+}
+
+ion-segment.app-segment ion-segment-button {
+  --color: var(--app-accent-text);
+  --color-checked: var(--app-on-accent);
+  --indicator-color: var(--app-accent);
+  --border-radius: var(--app-radius-pill);
+  text-transform: none;
+  font-weight: 600;
+}
+
+/* Menú lateral */
+ion-menu ion-toolbar {
+  --background: var(--app-accent);
+  --color: var(--app-on-accent);
+}
+
+ion-menu ion-content {
+  --background: var(--app-bg);
+}
+
+ion-list.app-menu {
+  background: transparent;
+  padding: var(--app-space-2);
+}
+
+ion-list.app-menu ion-item {
+  --background: transparent;
+  --color: var(--app-text);
+  --border-radius: var(--app-radius-field);
+  margin-bottom: var(--app-space-1);
+}
+
+ion-list.app-menu ion-item.activo {
+  --background: var(--app-accent-soft);
+  --color: var(--app-accent-text);
+  font-weight: 600;
+}
+/* Bloque de un medicamento dentro del formulario de paciente. */
+.app-card-form {
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+  background: var(--app-surface);
+  box-shadow: var(--app-shadow);
+  padding: 0 var(--app-space-3) var(--app-space-2);
+  margin-top: var(--app-space-3);
+}

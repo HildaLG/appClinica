@@ -1,0 +1,145 @@
+// Tema "Clínica Rosa". Todo el aspecto sale de las variables de este archivo:
+// cambia aquí un color, una fuente o un espacio y se actualizan todas las pantallas.
+// El tema sigue al sistema operativo: los valores de abajo son el modo claro y el
+// bloque @media (prefers-color-scheme: dark) del final redefine los que cambian.
+
+:root {
+  color-scheme: light dark;
+
+  // --- Paleta (un solo acento: rosa palo) --------------------------------------
+  --app-accent: #d98ca3;          // encabezado, botones sólidos y botón flotante
+  --app-accent-strong: #c4748d;   // acento al presionar
+  --app-accent-text: #b5536f;     // acento usado como TEXTO (enlaces, etiquetas)
+  --app-accent-soft: #fbe9ee;     // fondo suave de etiquetas y avatares
+  --app-on-accent: #ffffff;       // texto sobre el acento
+
+  --app-bg: #fff7f9;              // fondo de pantalla (crema rosado)
+  --app-surface: #ffffff;         // tarjetas, campos y pie
+  --app-text: #3d2c33;            // texto principal
+  --app-text-muted: #7d6a72;      // texto secundario
+  --app-text-disabled: #8a7880;   // controles inactivos
+  --app-border: #f2d5dd;          // bordes
+  --app-danger: #c0392b;          // errores y borrar
+  --app-success: #2f8f6b;         // confirmaciones
+
+  // Colores de los estados de una cita
+  --app-pending-bg: #fff3d6;
+  --app-pending-text: #8a6100;
+  --app-done-bg: #dff4ea;
+  --app-done-text: #1f6b4f;
+  --app-cancel-bg: #efe4e8;
+  --app-cancel-text: #6f5560;
+
+  --app-shadow: 0 2px 12px rgba(181, 83, 111, 0.10);
+  --app-fab-shadow: 0 4px 14px rgba(217, 140, 163, 0.45);
+
+  // --- Tipografía ---------------------------------------------------------------
+  --app-font: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --app-font-size: 1rem;
+  --app-font-size-small: 0.875rem;
+  --app-font-size-title: 1.25rem;
+
+  // --- Espaciado y forma (más redondeado que el manual) --------------------------
+  --app-space-1: 4px;
+  --app-space-2: 8px;
+  --app-space-3: 16px;
+  --app-space-4: 24px;
+  --app-radius: 22px;            // tarjetas
+  --app-radius-field: 16px;      // campos de formulario
+  --app-radius-pill: 999px;      // botones, etiquetas y avatares
+  --app-content-max-width: 720px;
+
+  // --- Variables de Ionic conectadas a la paleta --------------------------------
+  --ion-font-family: var(--app-font);
+  --ion-background-color: var(--app-bg);
+  --ion-background-color-rgb: 255, 247, 249;
+  --ion-text-color: var(--app-text);
+  --ion-text-color-rgb: 61, 44, 51;
+  --ion-border-color: var(--app-border);
+  --ion-item-background: var(--app-surface);
+  --ion-toolbar-background: var(--app-accent);
+  --ion-toolbar-color: var(--app-on-accent);
+
+  --ion-color-primary: #d98ca3;
+  --ion-color-primary-rgb: 217, 140, 163;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #be7b8f;
+  --ion-color-primary-tint: #dd98ad;
+
+  --ion-color-danger: #c0392b;
+  --ion-color-danger-rgb: 192, 57, 43;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #a93226;
+  --ion-color-danger-tint: #c64b3f;
+
+  --ion-color-success: #2f8f6b;
+  --ion-color-success-rgb: 47, 143, 107;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #298059;
+  --ion-color-success-tint: #44997a;
+}
+
+// --- Modo oscuro ------------------------------------------------------------------
+// Ionic trae su propia paleta oscura (global.scss importa dark.system.css).
+// Aquí solo se redefinen los colores propios de la app.
+@media (prefers-color-scheme: dark) {
+  :root,
+  :root.md,
+  :root.ios {
+    --app-accent: #b5607a;
+    --app-accent-strong: #9f5068;
+    --app-accent-text: #f2b3c5;
+    --app-accent-soft: #3d2530;
+
+    --app-bg: #1c1417;
+    --app-surface: #281d22;
+    --app-text: #f6eef1;
+    --app-text-muted: #c5b3ba;
+    --app-text-disabled: #9a8890;
+    --app-border: #43303a;
+    --app-danger: #f08a7e;
+    --app-success: #5fd3a3;
+
+    --app-pending-bg: #4a3a12;
+    --app-pending-text: #ffd978;
+    --app-done-bg: #1d4034;
+    --app-done-text: #8ee6c2;
+    --app-cancel-bg: #3b2f35;
+    --app-cancel-text: #d2c0c7;
+
+    --app-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+    --app-fab-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+
+    --ion-background-color: var(--app-bg);
+    --ion-background-color-rgb: 28, 20, 23;
+    --ion-text-color: var(--app-text);
+    --ion-text-color-rgb: 246, 238, 241;
+    --ion-item-background: var(--app-surface);
+    --ion-toolbar-background: var(--app-accent);
+    --ion-toolbar-color: var(--app-on-accent);
+
+    --ion-color-primary: #e8a0b5;
+    --ion-color-primary-rgb: 232, 160, 181;
+    --ion-color-primary-contrast: #000000;
+    --ion-color-primary-contrast-rgb: 0, 0, 0;
+    --ion-color-primary-shade: #cc8d9f;
+    --ion-color-primary-tint: #eaaabd;
+
+    --ion-color-danger: #f08a7e;
+    --ion-color-danger-rgb: 240, 138, 126;
+    --ion-color-danger-contrast: #000000;
+    --ion-color-danger-contrast-rgb: 0, 0, 0;
+    --ion-color-danger-shade: #d37a6f;
+    --ion-color-danger-tint: #f29589;
+
+    --ion-color-success: #5fd3a3;
+    --ion-color-success-rgb: 95, 211, 163;
+    --ion-color-success-contrast: #000000;
+    --ion-color-success-contrast-rgb: 0, 0, 0;
+    --ion-color-success-shade: #54ba8f;
+    --ion-color-success-tint: #6fd7ac;
+  }
+}

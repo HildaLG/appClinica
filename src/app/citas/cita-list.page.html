@@ -1,0 +1,96 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Citas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="app-container">
+    <ion-segment class="app-segment" [value]="pestana()" (ionChange)="cambiarPestana($event)">
+      <ion-segment-button value="pending">
+        <ion-label>Pendientes ({{ conteo().pending }})</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="completed">
+        <ion-label>Completadas ({{ conteo().completed }})</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="cancelled">
+        <ion-label>Canceladas ({{ conteo().cancelled }})</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <ion-searchbar
+      class="app-search"
+      placeholder="Buscar por paciente o motivo"
+      [debounce]="200"
+      (ionInput)="buscar($event)"
+    ></ion-searchbar>
+
+    @if (cargando() && items().length === 0) {
+      <div class="app-state">
+        <ion-spinner></ion-spinner>
+      </div>
+    }
+
+    @if (error(); as mensaje) {
+      <div class="app-state">
+        <p>{{ mensaje }}</p>
+        <ion-button (click)="cargar()">Reintentar</ion-button>
+      </div>
+    } @else if (!cargando() && items().length === 0) {
+      <p class="app-state">No hay citas todavía.</p>
+    } @else if (!cargando() && visibles().length === 0) {
+      <p class="app-state">No hay citas en esta pestaña.</p>
+    }
+
+    <ion-list class="app-list">
+      @for (cita of visibles(); track cita.id) {
+        <ion-item class="app-card" lines="none" button detail [routerLink]="['/citas', cita.id, 'editar']">
+          <ion-label class="ion-text-wrap">
+            <h2>{{ cita.patient?.name }}</h2>
+            <p>{{ fecha(cita.appointment_date) }}</p>
+            <p>{{ cita.reason }}</p>
+            <span class="app-estado" [class]="cita.status">{{ etiqueta(cita.status) }}</span>
+          </ion-label>
+
+          @if (cita.status === 'pending') {
+            <ion-button
+              slot="end"
+              fill="clear"
+              color="success"
+              aria-label="Marcar como completada"
+              (click)="cambiarEstado(cita, 'completed', $event)"
+            >
+              <ion-icon slot="icon-only" name="checkmark-circle-outline"></ion-icon>
+            </ion-button>
+            <ion-button
+              slot="end"
+              fill="clear"
+              aria-label="Cancelar cita"
+              (click)="cambiarEstado(cita, 'cancelled', $event)"
+            >
+              <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
+            </ion-button>
+          }
+          <ion-button
+            slot="end"
+            fill="clear"
+            color="danger"
+            aria-label="Eliminar cita"
+            (click)="confirmarBorrado(cita, $event)"
+          >
+            <ion-icon slot="icon-only" name="trash"></ion-icon>
+          </ion-button>
+        </ion-item>
+      }
+    </ion-list>
+  </div>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button routerLink="/citas/nueva" aria-label="Nueva cita">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": []
+  },
+  "include": [
+    "src/app/*.ts",
+    "src/app/core/**/*.ts",
+    "src/app/shared/**/*.ts",
+    "src/app/aseguradoras/**/*.ts",
+    "src/app/doctores/**/*.ts",
+    "src/app/medicamentos/**/*.ts",
+    "src/app/pacientes/**/*.ts",
+    "src/app/citas/**/*.ts",
+    "src/app/home/**/*.ts"
+  ],
+  "exclude": ["src/**/*.spec.ts"]
+}

@@ -1,0 +1,146 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/pacientes"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ esEdicion() ? 'Editar paciente' : 'Nuevo paciente' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="app-container">
+    @if (cargando()) {
+      <div class="app-state">
+        <ion-spinner></ion-spinner>
+      </div>
+    } @else {
+      <form [formGroup]="form" (ngSubmit)="guardar()" novalidate>
+        <ion-item class="app-field" lines="none">
+          <ion-select
+            label="Doctor asignado"
+            labelPlacement="stacked"
+            fill="outline"
+            placeholder="Elige un doctor"
+            formControlName="doctor_id"
+          >
+            @for (doctor of doctoresOpciones(); track doctor.id) {
+              <ion-select-option [value]="doctor.id">{{ doctor.name }} ({{ doctor.specialty }})</ion-select-option>
+            }
+          </ion-select>
+        </ion-item>
+        <app-field-error [control]="form.controls.doctor_id" />
+
+        <ion-item class="app-field" lines="none">
+          <ion-input label="Nombre completo" labelPlacement="stacked" fill="outline" formControlName="name"></ion-input>
+        </ion-item>
+        <app-field-error [control]="form.controls.name" />
+
+        <ion-item class="app-field" lines="none">
+          <ion-input label="Correo" labelPlacement="stacked" fill="outline" type="email" formControlName="email"></ion-input>
+        </ion-item>
+        <app-field-error [control]="form.controls.email" />
+
+        <ion-item class="app-field" lines="none">
+          <ion-input label="Teléfono" labelPlacement="stacked" fill="outline" type="tel" formControlName="phone"></ion-input>
+        </ion-item>
+        <app-field-error [control]="form.controls.phone" />
+
+        <ion-item class="app-field" lines="none">
+          <ion-input label="Fecha de nacimiento" labelPlacement="stacked" fill="outline" type="date" formControlName="birthdate"></ion-input>
+        </ion-item>
+        <app-field-error [control]="form.controls.birthdate" />
+
+        <ion-item class="app-field" lines="none">
+          <ion-select label="Género" labelPlacement="stacked" fill="outline" formControlName="gender">
+            <ion-select-option value="F">Femenino</ion-select-option>
+            <ion-select-option value="M">Masculino</ion-select-option>
+            <ion-select-option value="O">Otro</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <app-field-error [control]="form.controls.gender" />
+
+        <ion-item class="app-field" lines="none">
+          <ion-input label="Dirección (opcional)" labelPlacement="stacked" fill="outline" formControlName="address"></ion-input>
+        </ion-item>
+        <app-field-error [control]="form.controls.address" />
+
+        @if (!esEdicion()) {
+          <h2 class="ion-padding-top">Medicamentos</h2>
+          <app-field-error [control]="form.controls.medications" />
+
+          <div formArrayName="medications">
+            @for (fila of form.controls.medications.controls; track fila; let i = $index) {
+              <div class="app-card-form" [formGroupName]="i">
+                <ion-item class="app-field" lines="none">
+                  <ion-select
+                    label="Medicamento"
+                    labelPlacement="stacked"
+                    fill="outline"
+                    placeholder="Elige un medicamento"
+                    formControlName="medication_id"
+                  >
+                    @for (m of medicamentosOpciones(); track m.id) {
+                      <ion-select-option [value]="m.id" [disabled]="estaElegido(m.id, i)">
+                        {{ m.name }} ({{ m.presentation }})
+                      </ion-select-option>
+                    }
+                  </ion-select>
+                </ion-item>
+                <app-field-error [control]="fila.controls.medication_id" />
+
+                <ion-item class="app-field" lines="none">
+                  <ion-input label="Dosis" labelPlacement="stacked" fill="outline" placeholder="500 mg" formControlName="dosage"></ion-input>
+                </ion-item>
+                <app-field-error [control]="fila.controls.dosage" />
+
+                <ion-item class="app-field" lines="none">
+                  <ion-input label="Frecuencia" labelPlacement="stacked" fill="outline" placeholder="cada 8 horas" formControlName="frequency"></ion-input>
+                </ion-item>
+                <app-field-error [control]="fila.controls.frequency" />
+
+                <ion-item class="app-field" lines="none">
+                  <ion-input label="Inicio del tratamiento" labelPlacement="stacked" fill="outline" type="date" formControlName="start_date"></ion-input>
+                </ion-item>
+                <app-field-error [control]="fila.controls.start_date" />
+
+                <ion-item class="app-field" lines="none">
+                  <ion-input label="Fin del tratamiento (opcional)" labelPlacement="stacked" fill="outline" type="date" formControlName="end_date"></ion-input>
+                </ion-item>
+                <app-field-error [control]="fila.controls.end_date" />
+
+                <ion-button fill="clear" color="danger" size="small" (click)="quitarMedicamento(i)">
+                  <ion-icon slot="start" name="trash"></ion-icon>
+                  Quitar medicamento
+                </ion-button>
+              </div>
+            }
+          </div>
+
+          <ion-button fill="outline" expand="block" class="ion-margin-top" (click)="agregarMedicamento()">
+            <ion-icon slot="start" name="add"></ion-icon>
+            Agregar medicamento
+          </ion-button>
+        } @else if (recetas().length > 0) {
+          <h2 class="ion-padding-top">Medicamentos recetados</h2>
+          @for (receta of recetas(); track receta.id) {
+            <ion-item class="app-card" lines="none">
+              <ion-label class="ion-text-wrap">
+                <h2>{{ receta.medication?.name }}</h2>
+                <p>{{ receta.dosage }} · {{ receta.frequency }}</p>
+                <p>Desde {{ receta.start_date }}{{ receta.end_date ? ' hasta ' + receta.end_date : '' }}</p>
+              </ion-label>
+            </ion-item>
+          }
+        }
+
+        @if (errorGeneral(); as mensaje) {
+          <p class="app-form-error">{{ mensaje }}</p>
+        }
+
+        <ion-button type="submit" expand="block" class="ion-margin-top" [disabled]="guardando()">
+          {{ guardando() ? 'Guardando...' : 'Guardar' }}
+        </ion-button>
+      </form>
+    }
+  </div>
+</ion-content>
